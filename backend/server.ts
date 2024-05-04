@@ -66,7 +66,7 @@ app.get('api/users', async (req,res) => {
         return Object.values(row).some(value => value.toLowerCase().includes(search));
     });
     //4.Return 200 with the filtered data
-    return res.send(200).json({data: filteredData})
+    return res.send(200).json({data: filteredData});
 })
 
 app.listen(port, () => {
