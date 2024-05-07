@@ -10,6 +10,11 @@ const APP_STATUS = {
   READY_USAGE: 'ready_usage', //esto es cuando ya podamos hacer las busquedas, despues de subir
 } as const
 
+const BUTTON_TEXT = {
+  [APP_STATUS.READY_UPLOAD] : 'Subir Archivo',
+  [APP_STATUS.UPLOADING] : 'Subiendo...'
+}
+
 type AppStatusType = typeof APP_STATUS[keyof typeof APP_STATUS]
 
 function App() {
@@ -30,19 +35,24 @@ function App() {
     console.log('TODO');
   }
 
+  const showButton = appStatus === APP_STATUS.READY_UPLOAD || appStatus === APP_STATUS.UPLOADING
+
   return (
     <>
       <h4>Upload CSV + Search</h4>
       <form onSubmit={handleSubmit}>
         <label>
           <input
+          disabled={appStatus === APP_STATUS.UPLOADING}
             onChange={handleInputChange}
             type="file"
             accept='.csv'
             name="file"
             id="" />
         </label>
-        <button>Subir Archivo</button>
+        {showButton && (
+          <button>{BUTTON_TEXT[appStatus]}</button>
+        )}
       </form>
     </>
   )
