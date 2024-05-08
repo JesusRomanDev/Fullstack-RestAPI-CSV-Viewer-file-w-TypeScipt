@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css'
+import Alert from './components/Alert';
 //Haciendo que nuestra UI por asi decirlo, tenga diferentes pasos
 //Osea que nuestra aplicacion tiene diferentes estados que en los que se encuentre que visualmente va a cambiar
 const APP_STATUS = {
@@ -20,6 +21,8 @@ type AppStatusType = typeof APP_STATUS[keyof typeof APP_STATUS]
 function App() {
   const [appStatus, setAppStatus] = useState<AppStatusType>(APP_STATUS.IDLE);
   const [file, setFile] = useState<File | null>(null)
+  const [error, setError] = useState({error: false, msg: ''});
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const [file] = event.target.files ?? [];
@@ -32,6 +35,11 @@ function App() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
+    if(appStatus !== APP_STATUS.READY_UPLOAD || !file){
+      setError({error: true, msg: 'No has subido tu archivo o no se pudo cargar correctamente, intenta de nuevo'});
+      return
+    }
+    setAppStatus(APP_STATUS.UPLOADING);
     console.log('TODO');
   }
 
@@ -40,6 +48,7 @@ function App() {
   return (
     <>
       <h4>Upload CSV + Search</h4>
+      {error.error && <Alert error={error} />}
       <form onSubmit={handleSubmit}>
         <label>
           <input
