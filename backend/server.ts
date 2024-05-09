@@ -20,12 +20,16 @@ const upload = multer({storage: storage});
 let userData: Array<Record<string, string>> = [];
 
 
-
 app.use(cors());
 
-app.post('api/files', upload.single('file'), async (req, res)=> {
+app.get('/api', (req,res) => {
+    res.send('Hola');
+})
+
+app.post('/api/files', upload.single('file'), async (req, res)=> {
     //1.Extract file from request
     const {file} = req;
+    console.log(file);
     //2.Validate that we have file
     if(!file){
         return res.status(500).json({message: 'File is required'});
@@ -39,16 +43,26 @@ app.post('api/files', upload.single('file'), async (req, res)=> {
     try {
         //Nota: Los datos no viajan como cadenas de texto en si, viajan en dato binario, entonces para poder transformarlo
         //a un string tenemos que hacer lo de abajo.
+        //Ejemplo
+        //const b = Buffer.from([101, 120, 97, 109, 112, 108, 101]);
+        //console.log(b.toString()); // nos da como resultado la palabra example example
+        //Entonces tomamos esos numeros en el from y despues los convertimos a string 
         const rawCsv = Buffer.from(file.buffer).toString('utf-8');
+        console.log(rawCsv);
         //5. Transform string (csv) to JSON osea transformando esa cadena de texto a un json
-        json = csvToJson.csvStringToJson(rawCsv);
+        //El flieldDelimiter es necesario para separar los valores parseados de la linea de arriba
+        //porque si no, estarian asi
+        //id,Nombre,Edad,Departamento,Email
+        //1,Juan Pere,34,Ventas,Juan@ventas.com
+        //2,Laura Jimenez,28,Marketing,Laura@ventas.com
+        json = csvToJson.fieldDelimiter(',').csvStringToJson(rawCsv);
     } catch (error) {
         return res.status(500).json({message: 'Error parsing the file'})
     }
     //6.Save the JSON to db (or memory)
     userData = json; //<-----asignandolo en memoria
     //7.Return 200 with the message and JSON
-    return res.send(200).json({data: userData, message: 'File uploaded successfully'})
+    return res.status(200).json({data: userData, message: 'File uploaded successfully'})
 })
 
 app.get('api/users', async (req,res) => {
