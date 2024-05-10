@@ -65,7 +65,7 @@ app.post('/api/files', upload.single('file'), async (req, res)=> {
     return res.status(200).json({data: userData, message: 'File uploaded successfully'})
 })
 
-app.get('api/users', async (req,res) => {
+app.get('/api/users', async (req,res) => {
     //1.Extract the query param 'q' from the request
     const {q} = req.query;
     //2.Validate that we have the query param
@@ -80,7 +80,7 @@ app.get('api/users', async (req,res) => {
         return Object.values(row).some(value => value.toLowerCase().includes(search));
     });
     //4.Return 200 with the filtered data
-    return res.send(200).json({data: filteredData});
+    return res.status(200).json({data: filteredData});
 })
 
 app.listen(port, () => {

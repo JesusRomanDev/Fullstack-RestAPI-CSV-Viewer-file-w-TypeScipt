@@ -1,3 +1,5 @@
 id,Nombre,Edad,Departamento,Email
-1,Juan Pere,34,Ventas,Juan@ventas.com
+1,Juan Perez,34,Ventas,Juan@ventas.com
 2,Laura Jimenez,28,Marketing,Laura@ventas.com
+3,Jesus Roman,27,Ingenieria,Jesus@ingenieria.com
+4,Estrella Hernandez,27,Sistemas,Estrella@sistemas.com

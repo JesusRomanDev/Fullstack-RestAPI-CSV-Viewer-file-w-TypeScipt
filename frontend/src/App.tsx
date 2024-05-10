@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css'
 import Alert from './components/Alert';
+import Search from './steps/Search';
 import uploadFile from './services/upload';
 import { Toaster, toast } from 'sonner';
 import { type Data } from './types';
@@ -59,7 +60,7 @@ function App() {
     if(newData) setData(newData);
     //Usando el toast en el success
     toast.success('Archivo Subido Correctamente')
-    console.log(err, data);
+    console.log(data);
   }
 
   //Ocultando el Button
@@ -87,7 +88,11 @@ function App() {
             <button disabled={appStatus === APP_STATUS.UPLOADING}>{BUTTON_TEXT[appStatus]}</button>
           )}
         </form>
-      }     
+      }  
+
+      {appStatus === APP_STATUS.READY_USAGE && (
+        <Search initialData= {data} />
+      )}   
     </>
   )
 }
