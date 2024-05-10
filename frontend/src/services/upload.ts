@@ -1,3 +1,4 @@
+import { API_HOST } from "../config";
 import { ApiUploadResponse, type Data } from "../types";
 const uploadFile = async (file: File): Promise<[Error? , Data?]> => {
     const formData = new FormData();
@@ -5,7 +6,7 @@ const uploadFile = async (file: File): Promise<[Error? , Data?]> => {
     console.log(formData);
 
     try {
-        const url = 'http://localhost:3000/api/files'
+        const url = `${API_HOST}/api/files`
         const res = await fetch(url, {
             method: 'POST',
             body: formData

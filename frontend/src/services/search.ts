@@ -1,7 +1,8 @@
 import { type ApiSearchResponse, type Data } from "../types";
+import { API_HOST } from "../config";
 const searchData = async (search: string): Promise<[Error? , Data?]> => {
     try {
-        const url = `http://localhost:3000/api/users?q=${search}`
+        const url = `${API_HOST}/api/users?q=${search}`
         const res = await fetch(url)
 
         if(!res.ok) return [new Error(`Error searching data: ${res.statusText}`)]
