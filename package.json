@@ -1,11 +1,12 @@
 {
   "name": "fullstack-restapi",
+  "workspaces": ["backend", "frontend"],
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm run dev -workspace=frontend -workspace=backend",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "author": "",
   "license": "ISC",
