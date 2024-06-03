@@ -53,17 +53,16 @@ const Search = ({initialData}: {initialData : Data}) => {
 
     },[search, initialData])
   return (
-    <div>
-        <h1>Search</h1>
+    <div className="text-black">
         <form action="">
-            <input onChange={handleSearch} type="search" placeholder="Buscar Informacion..." defaultValue={search} />
+            <input size={40} className="rounded-md border-gray-600 border-2" onChange={handleSearch} type="search" placeholder="Search for and id, name, etc..." defaultValue={search} />
         </form>
         <ul>
             {data.map((row) => (
                 <li key={row.id}>
-                    <article>
+                    <div className="rounded-md border-gray-600 border-2 my-2">
                         {Object.entries(row).map(([key, value]) => <p key={key}><strong>{key} {' '}</strong>{value}</p> )}
-                    </article>
+                    </div>
                 </li>
             ))}
         </ul>

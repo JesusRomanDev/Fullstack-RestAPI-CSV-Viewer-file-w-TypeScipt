@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import './App.css'
+import Header from './components/Header';
 import Alert from './components/Alert';
+import Footer from './components/Footer';
 import Search from './steps/Search';
 import uploadFile from './services/upload';
 import { Toaster, toast } from 'sonner';
@@ -16,8 +17,8 @@ const APP_STATUS = {
 } as const
 
 const BUTTON_TEXT = {
-  [APP_STATUS.READY_UPLOAD] : 'Subir Archivo',
-  [APP_STATUS.UPLOADING] : 'Subiendo...'
+  [APP_STATUS.READY_UPLOAD] : 'Upload File',
+  [APP_STATUS.UPLOADING] : 'Uploading...'
 }
 
 type AppStatusType = typeof APP_STATUS[keyof typeof APP_STATUS]
@@ -56,11 +57,13 @@ function App() {
     }
     
     //Ready to use
-    setAppStatus(APP_STATUS.READY_USAGE);
-    if(newData) setData(newData);
-    //Usando el toast en el success
-    toast.success('Archivo Subido Correctamente')
-    console.log(data);
+    setTimeout(() => {
+      setAppStatus(APP_STATUS.READY_USAGE);
+      if(newData) setData(newData);
+      //Usando el toast en el success
+      toast.success('File Uploaded Successfully')
+      console.log(data);
+    }, 3000);
   }
 
   //Ocultando el Button
@@ -71,21 +74,42 @@ function App() {
   return (
     <>
     <Toaster />
-      <h4>Upload CSV + Search</h4>
+      <Header />
       {error.error && <Alert error={error} />}
       {showInput &&
-        <form onSubmit={handleSubmit}>
-          <label>
-            <input
+        <form className='mt-5 text-black px-20 box-border flex flex-col justify-center items-center h-1/2 border-dashed rounded-md border-gray-600 border-2 bg-gray-100' onSubmit={handleSubmit}>
+          <div className='max-w-20 mb-5'>
+            <img src="./../../public/img/csvpng.png" alt="" />
+          </div>
+          <label className='cursor-pointer'htmlFor='csv'>
+            <input className='cursor-pointer'
             disabled={appStatus === APP_STATUS.UPLOADING}
               onChange={handleInputChange}
+              placeholder='Aqui we'
               type="file"
               accept='.csv'
               name="file"
-              id="" />
+              id="csv" />
+              
           </label>
           {showButton && (
-            <button disabled={appStatus === APP_STATUS.UPLOADING}>{BUTTON_TEXT[appStatus]}</button>
+            <>
+              <div className='flex justify-center items-center'>
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-circle-check" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00b341" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                  <path d="M9 12l2 2l4 -4" />
+                  </svg>
+                </div>
+                <div>
+                  <p className='text-green-700'>Ready to upload</p>
+                </div>
+
+              </div>
+            
+              <button className='button' disabled={appStatus === APP_STATUS.UPLOADING}>{BUTTON_TEXT[appStatus]}</button>
+            </>
           )}
         </form>
       }  
@@ -93,6 +117,8 @@ function App() {
       {appStatus === APP_STATUS.READY_USAGE && (
         <Search initialData= {data} />
       )}   
+
+      <Footer />
     </>
   )
 }
