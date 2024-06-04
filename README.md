@@ -39,6 +39,17 @@ Web Application that allow users to upload CSV file with pre formated data and a
 -Multer middleware for handling multipart/form-data, for our csv file.<br>
 -Part of Multer middleware, convert csv to json function to be able to recieve JSON and response with so to get stick to good practices.
 
+## Multer 
+As we are going to upload files, Multer was the best option for handling multipart/form-data, the process was first to add the file into the input button, then with the event.target.files assign it into a variable used by the hook "useState", then pass it to a function and create a new formData, very important is to NOT ADD ANY HEADERS, since we need to let the browser to add the apropiate boundaries. 
+
+<p align="center">
+    <img src="./frontend/public/img/multer.PNG">
+</p>
+
+Then make the call to the appropiate endpoint in the RESTful API and the backend will accept the multipart/form-data, since we want to store it into the memory i used const storage = multer.memoryStorage(); const upload = multer({storage: storage}); in order to have access to the buffer and turn it into a string (rawCSV), then use the function CSVtoJson and finally adding into memory and respond with JSON.
+
+
+
 ## UI States
 
 ### Looking at our CSV file
